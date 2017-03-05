@@ -8,26 +8,16 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private Button enableButton;
-    private Button disableButton;
     private boolean systemWritePermission;
     private boolean hotspotEnabled;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Find references to buttons
-        enableButton = (Button) findViewById(R.id.button_enable);
-        enableButton.setOnClickListener(this);
-
-        disableButton = (Button) findViewById(R.id.button_disable);
-        disableButton.setOnClickListener(this);
     }
 
     // Allow user to manually allow manifest to write permissions
@@ -35,6 +25,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         // Proceed if Android build is at least 6.0
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Log.d(TAG, "build version: " + String.valueOf(Build.VERSION.SDK_INT));
 
             // Check if app can write system settings
             boolean canWrite = Settings.System.canWrite(MainActivity.this);
@@ -55,8 +46,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Log.d(TAG, "Failed to launch Settings activity.");
                 }
             }
+            return false;
         }
-        return false;
+        return true;
     }
 
     // @+id/button_enable hook
@@ -66,6 +58,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (systemWritePermission) {
                 // Check Ap state
                 if (!ApManager.isApOn(MainActivity.this)) {
+                    Log.d(TAG, "Wifi AP is not on");
                     // Change Ap state
                     ApManager.configApState(MainActivity.this);
                     hotspotEnabled = true;
@@ -99,10 +92,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }
 
 

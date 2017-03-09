@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -37,10 +38,8 @@ public class MainActivity extends Activity {
             } else {
                 Log.d(TAG, "Insufficient permissions, launching settings.");
                 try {
-                    String packageName = getApplicationContext().getPackageName();
-                    Uri packageUri = Uri.parse("package:" + packageName);
-                    Intent settings = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, packageUri);
-                    startActivity(settings);
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS, Uri.parse("package:" + getPackageName()));
+                    startActivity(intent);
                     Log.d(TAG, "Launched settings activity.");
                 } catch (Exception e) {
                     Log.d(TAG, "Failed to launch Settings activity.");

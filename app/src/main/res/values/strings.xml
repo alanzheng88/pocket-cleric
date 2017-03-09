@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PocketCleric</string>
+    <string name="get_connected_devices">Get Connected Devices</string>
 </resources>

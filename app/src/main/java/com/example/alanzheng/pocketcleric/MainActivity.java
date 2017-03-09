@@ -8,25 +8,30 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import java.util.List;
 
 public class MainActivity extends Activity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private boolean systemWritePermission;
-    private boolean hotspotEnabled;
+    private boolean mSystemWritePermission;
+    private TextView mConnectedDevicesTextView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mConnectedDevicesTextView = (TextView) findViewById(R.id.textview_connected_devices);
     }
 
     // Allow user to manually allow manifest to write permissions
     private boolean checkSystemWritePermission() {
 
-        // Proceed if Android build is at least 6.0
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Log.d(TAG, "build version: " + String.valueOf(Build.VERSION.SDK_INT));
+        int buildVersionSdk = Build.VERSION.SDK_INT;
+
+        if (buildVersionSdk >= Build.VERSION_CODES.M) {
+            // Proceed if Android build is at least 6.0
+            Log.d(TAG, "build version: " + String.valueOf(buildVersionSdk));
 
             // Check if app can write system settings
             boolean canWrite = Settings.System.canWrite(MainActivity.this);
@@ -46,50 +51,70 @@ public class MainActivity extends Activity {
                 }
             }
             return false;
+        } else if (buildVersionSdk >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            // Proceed if Android build is at least 4.2.2
+            return true;
         }
-        return true;
+        return false;
     }
 
     // @+id/button_enable hook
     public void onEnable(View v) {
-        if (!hotspotEnabled) {
-            // Handle system write permissions
-            if (systemWritePermission) {
-                // Check Ap state
-                if (!ApManager.isApOn(MainActivity.this)) {
-                    Log.d(TAG, "Wifi AP is not on");
-                    // Change Ap state
-                    ApManager.configApState(MainActivity.this);
-                    hotspotEnabled = true;
-                    Log.d(TAG, "WiFi hotspot enabled.");
-                } else {
-                    Log.d(TAG, "Could not enable WiFi hotspot.");
-                }
+        // Handle system write permissions
+        if (mSystemWritePermission) {
+            // Check Ap state
+            if (!ApManager.isApOn(MainActivity.this)) {
+                Log.d(TAG, "Wifi AP is not on");
+                enableHotspot();
             } else {
-                Log.d(TAG, "Checking system write permission.");
-                systemWritePermission = checkSystemWritePermission();
+                Log.d(TAG, "Could not enable WiFi hotspot.");
             }
         } else {
-            Log.d(TAG, "Hotspot already enabled.");
+            Log.d(TAG, "Checking system write permission.");
+            mSystemWritePermission = checkSystemWritePermission();
+            if (mSystemWritePermission) {
+                enableHotspot();
+            }
         }
+    }
+
+    private void enableHotspot() {
+        ApManager.configApState(MainActivity.this);
+        Log.d(TAG, "WiFi hotspot enabled.");
     }
 
     // @+id/button_disable hook
     public void onDisable(View v) {
-        if (hotspotEnabled) {
-            // Check Ap state
-            if (ApManager.isApOn(MainActivity.this)) {
-                // Change Ap state
-                ApManager.configApState(MainActivity.this);
-                hotspotEnabled = false;
-                Log.d(TAG, "WiFi hotspot disabled.");
-            } else {
-                Log.d(TAG, "Could not disable WiFi hotspot.");
-            }
+        // Check Ap state
+        if (ApManager.isApOn(MainActivity.this)) {
+            // Change Ap state
+            ApManager.configApState(MainActivity.this);
+            Log.d(TAG, "WiFi hotspot disabled.");
         } else {
             Log.d(TAG, "Hotspot already disabled.");
         }
     }
+
+    // @+id/button_get_connected_devices
+    public void getConnectedDevices(View v) {
+        if (ApManager.isApOn(MainActivity.this)) {
+            // Storing all the info temporarily in a string for now
+            // later we will move it to a RecyclerView
+            String info = "";
+            // When debugging, set the first argument for getClientList to false if you have hotspot
+            // on but don't have data
+            List<ClientScanResult> clientScanResultList = ApManager.getClientList(false, 1000);
+            for (ClientScanResult clientResult : clientScanResultList) {
+                info += clientResult.toString() + "\n\n";
+            }
+            Log.d(TAG, "Displaying info: " + info);
+            mConnectedDevicesTextView.setText(info);
+
+        } else {
+            Log.d(TAG, "Cannot get connected devices. Hotspot not enabled.");
+        }
+    }
+
 
 }
 

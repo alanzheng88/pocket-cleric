@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">PocketCleric</string>
-    <string name="get_connected_devices">Get Connected Devices</string>
+    <string name="get_connected_devices">get connected devices</string>
+    <string name="connected_devices">connected devices</string>
+    <string name="provide_hotspot">provide hotspot</string>
+    <string name="access_hotspot">access hotspot</string>
+    <string name="enable">enable</string>
+    <string name="disable">disable</string>
+    <string name="hotspot">hotspot</string>
+    <string name="status">status</string>
+    <string name="chat">chat</string>
 </resources>

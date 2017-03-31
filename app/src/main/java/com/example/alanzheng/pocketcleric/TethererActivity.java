@@ -122,7 +122,7 @@ public class TethererActivity extends AppCompatActivity {
             // on but don't have data
             List<ClientScanResult> clientScanResultList = ApManager.getClientList(false, 1000);
             for (ClientScanResult clientResult : clientScanResultList) {
-                info += clientResult.toString() + "\n\n";
+                info += clientResult.getHwAddress()j + "\n\n";
             }
             Log.d(TAG, "Displaying info: " + info);
             mConnectedDevicesTextView.setText(info);

@@ -53,5 +53,7 @@
     <string name="latest">Latest</string>
     <string name="previous">Previous</string>
     <string name="delta">Delta</string>
+    <string name="apps_delta">- Apps</string>
+    <string name="tether_delta">= Tether</string>
     <string name="device"><i>(device)</i></string>
 </resources>

@@ -16,6 +16,8 @@ public class TrafficMonitorActivity extends Activity {
     TextView previous_tx=null;
     TextView delta_rx=null;
     TextView delta_tx=null;
+    TextView tether_delta_rx=null;
+    TextView tether_delta_tx=null;
     TrafficSnapshot latest=null;
     TrafficSnapshot previous=null;
 
@@ -30,6 +32,8 @@ public class TrafficMonitorActivity extends Activity {
         previous_tx=(TextView)findViewById(R.id.previous_tx);
         delta_rx=(TextView)findViewById(R.id.delta_rx);
         delta_tx=(TextView)findViewById(R.id.delta_tx);
+        tether_delta_rx=(TextView)findViewById(R.id.tether_delta_rx);
+        tether_delta_tx=(TextView)findViewById(R.id.tether_delta_tx);
 
         takeSnapshot(null);
     }
@@ -47,6 +51,9 @@ public class TrafficMonitorActivity extends Activity {
 
             delta_rx.setText(String.valueOf(latest.device.rx-previous.device.rx));
             delta_tx.setText(String.valueOf(latest.device.tx-previous.device.tx));
+
+            tether_delta_rx.setText(String.valueOf(latest.tether.rx-previous.tether.rx));
+            tether_delta_tx.setText(String.valueOf(latest.tether.tx-previous.tether.tx));
         }
 
         ArrayList<String> log=new ArrayList<String>();
@@ -65,37 +72,35 @@ public class TrafficMonitorActivity extends Activity {
         }
 
         Collections.sort(log);
-
         for (String row : log) {
             Log.d("TrafficMonitor", row);
         }
+
+        // queryDetailsForUid() UID for tethering is (UID_TETHERING) -5
+        // https://developer.android.com/reference/android/app/usage/NetworkStatsManager.html
     }
 
     private void emitLog(CharSequence name, TrafficRecord latest_rec,
                          TrafficRecord previous_rec,
                          ArrayList<String> rows) {
-        if (latest_rec.rx>0 || latest_rec.tx>0) {
-            StringBuilder buf=new StringBuilder(name);
-
-            buf.append("=");
-            buf.append(String.valueOf(latest_rec.rx));
-            buf.append(" received");
+        if (previous_rec!=null && latest_rec.rx-previous_rec.rx>0) {
+            StringBuilder buf=new StringBuilder(String.valueOf(latest_rec.rx));
+            buf.append("\t");
 
             if (previous_rec!=null) {
-                buf.append(" (delta=");
                 buf.append(String.valueOf(latest_rec.rx-previous_rec.rx));
-                buf.append(")");
+                buf.append("\t");
             }
 
-            buf.append(", ");
             buf.append(String.valueOf(latest_rec.tx));
-            buf.append(" sent");
+            buf.append("\t");
 
             if (previous_rec!=null) {
-                buf.append(" (delta=");
                 buf.append(String.valueOf(latest_rec.tx-previous_rec.tx));
-                buf.append(")");
+                buf.append("\t");
             }
+
+            buf.append(name);
 
             rows.add(buf.toString());
         }

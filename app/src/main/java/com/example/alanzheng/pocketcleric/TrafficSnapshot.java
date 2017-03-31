@@ -7,15 +7,18 @@ package com.example.alanzheng.pocketcleric;
 import java.util.HashMap;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.net.TrafficStats;
 
 public class TrafficSnapshot {
 
+    TrafficRecord tether=null;
     TrafficRecord device=null;
     HashMap<Integer, TrafficRecord> apps=
             new HashMap<Integer, TrafficRecord>();
 
     TrafficSnapshot(Context ctxt) {
         device=new TrafficRecord();
+        tether=new TrafficRecord(-5);
 
         HashMap<Integer, String> appNames=new HashMap<Integer, String>();
 
@@ -25,7 +28,8 @@ public class TrafficSnapshot {
         }
 
         for (Integer uid : appNames.keySet()) {
-            apps.put(uid, new TrafficRecord(uid, appNames.get(uid)));
+            TrafficRecord tr = new TrafficRecord(uid, appNames.get(uid));
+            apps.put(uid, tr);
         }
     }
 }

@@ -14,13 +14,6 @@
     </TableRow>
     <TableRow>
         <TextView
-            android:gravity="right" android:text="@string/latest"
-            android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
-        <TextView android:id="@+id/latest_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
-        <TextView android:id="@+id/latest_tx" android:gravity="right" android:textSize="20sp"/>
-    </TableRow>
-    <TableRow>
-        <TextView
             android:gravity="right" android:text="@string/previous"
             android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
         <TextView android:id="@+id/previous_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
@@ -28,10 +21,24 @@
     </TableRow>
     <TableRow>
         <TextView
+            android:gravity="right" android:text="@string/latest"
+            android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/latest_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/latest_tx" android:gravity="right" android:textSize="20sp"/>
+    </TableRow>
+    <TableRow>
+        <TextView
             android:gravity="right" android:text="@string/delta"
             android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
         <TextView android:id="@+id/delta_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
         <TextView android:id="@+id/delta_tx" android:gravity="right" android:textSize="20sp"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:gravity="right" android:text="@string/tether_delta"
+            android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/tether_delta_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/tether_delta_tx" android:gravity="right" android:textSize="20sp"/>
     </TableRow>
 
 </TableLayout>

@@ -21,7 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TethererActivity"></activity>
+        <activity
+            android:name=".TethererActivity"
+            android:label="@string/tetherer_label" />
+        <activity
+            android:name=".SignupActivity"
+            android:label="@string/signup_label" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/login_label" />
+        <activity android:name=".TrafficMonitorActivity"></activity>
     </application>
 
 </manifest>

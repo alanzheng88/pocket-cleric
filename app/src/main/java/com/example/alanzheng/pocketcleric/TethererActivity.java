@@ -11,6 +11,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class TethererActivity extends AppCompatActivity {
@@ -113,7 +116,7 @@ public class TethererActivity extends AppCompatActivity {
     }
 
     // @+id/button_get_connected_devices
-    public void getConnectedDevices(View v) {
+    public void getConnectedDevices(View v) throws IOException {
         if (ApManager.isApOn(TethererActivity.this)) {
             // Storing all the info temporarily in a string for now
             // later we will move it to a RecyclerView
@@ -131,6 +134,9 @@ public class TethererActivity extends AppCompatActivity {
             Toast.makeText(this, "Cannot get connected devices. Hotspot not enabled.", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Cannot get connected devices. Hotspot not enabled.");
         }
+
+
+
     }
 
 }

@@ -22,13 +22,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_provide_hotspot"
+                android:id="@+id/button_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:onClick="goToTethererActivity"
-                android:text="@string/provide_hotspot" />
+                android:onClick="goToSignupActivity"
+                android:text="@string/signup_label" />
         </LinearLayout>
 
         <LinearLayout
@@ -39,11 +39,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button_access_hotspot"
+                android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/access_hotspot" />
+                android:onClick="goToLoginActivity"
+                android:text="@string/login_label" />
         </LinearLayout>
 
     </LinearLayout>

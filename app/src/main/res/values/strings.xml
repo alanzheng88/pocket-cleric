@@ -9,4 +9,37 @@
     <string name="hotspot">hotspot</string>
     <string name="status">status</string>
     <string name="chat">chat</string>
+
+    <string name="tetherer_label">PocketCleric</string>
+    <string name="already_registered">I already have an account</string>
+
+    <string name="text_size">16dp</string>
+
+    <string name="signup_label">Sign Up</string>
+    <string name="signup_submit">Submit</string>
+
+    <string name="signup_username">Username</string>
+    <string name="signup_username_hint">Please choose a username</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_password_hint">Please choose a password</string>
+    <string name="signup_password2_hint">Re-enter your password</string>
+
+    <string name="login_label">Log In</string>
+    <string name="login_submit">Log In</string>
+
+    <string name="login_username">Username</string>
+    <string name="login_username_hint">Enter your username</string>
+    <string name="login_password">Password</string>
+    <string name="login_password_hint">Enter your password</string>
+    <string name="login_register">Create A New Account</string>
+
+    <string name="settings_label">Settings</string>
+    <string name="settings_submit">Save Settings</string>
+
+    <string name="settings_background_color">Welcome Background Color</string>
+    <string name="settings_background_color_hint">Enter a background color</string>
+    <string name="settings_text_color">Welcome Text Color</string>
+    <string name="settings_text_color_hint">Enter a text color</string>
+    <string name="settings_text_size">Welcome Text Size</string>
+    <string name="settings_text_size_hint">16</string>
 </resources>

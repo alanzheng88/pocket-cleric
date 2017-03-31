@@ -8,6 +8,18 @@
     android:orientation="vertical"
     tools:context="com.example.alanzheng.pocketcleric.TethererActivity">
 
+    <TextView
+        android:id="@+id/textview_hotspot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/hotspot"
+        android:textAllCaps="true"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -22,18 +34,6 @@
             android:onClick="onDisable"
             android:text="@string/disable" />
 
-        <TextView
-            android:id="@+id/textview_hotspot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/hotspot"
-            android:textAllCaps="true"
-            android:textSize="30dp"
-            android:textStyle="bold" />
-
         <Button
             android:id="@+id/button_enable"
             android:layout_width="wrap_content"
@@ -41,6 +41,14 @@
             android:layout_weight="1"
             android:onClick="onEnable"
             android:text="@string/enable" />
+
+        <Button
+            android:text="Traffic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:onClick="goToTrafficMonitorActivity"
+            android:layout_weight="1" />
 
     </LinearLayout>
 

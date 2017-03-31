@@ -139,4 +139,12 @@ public class TethererActivity extends AppCompatActivity {
 
     }
 
+    // Triggers when LOGIN Button clicked
+    public void goToTrafficMonitorActivity(View arg0) {
+        // Create an intent for login activity
+        Intent i = new Intent(this, TrafficMonitorActivity.class);
+        // Send user to next activity
+        startActivity(i);
+    }
+
 }

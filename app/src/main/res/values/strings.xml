@@ -42,4 +42,16 @@
     <string name="settings_text_color_hint">Enter a text color</string>
     <string name="settings_text_size">Welcome Text Size</string>
     <string name="settings_text_size_hint">16</string>
+
+
+    	<string name="received">
+		<u>Received</u>
+	</string>
+	<string name="sent">
+		<u>Sent</u>
+	</string>
+    <string name="latest">Latest</string>
+    <string name="previous">Previous</string>
+    <string name="delta">Delta</string>
+    <string name="device"><i>(device)</i></string>
 </resources>

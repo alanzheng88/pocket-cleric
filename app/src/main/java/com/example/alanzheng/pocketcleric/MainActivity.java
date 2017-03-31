@@ -24,6 +24,8 @@ public class MainActivity extends Activity {
 
         // Clear shared login preferences
         // getSharedPreferences(PREFS_TAG, 0).edit().clear().commit();
+
+        goToActivity();
     }
 
     // Triggers when SIGNUP Button clicked
@@ -56,6 +58,11 @@ public class MainActivity extends Activity {
 
         // Send user to next activity
         startActivity(i);
+    }
+
+    public void goToActivity()
+    {
+        startActivity(new Intent(this, TrafficMonitorActivity.class));
     }
 }
 

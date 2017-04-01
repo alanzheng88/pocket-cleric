@@ -6,12 +6,18 @@
     android:layout_height="wrap_content"
     tools:context="com.example.alanzheng.pocketcleric.TrafficMonitorActivity">
 
-    <Button android:text="Take Snapshot" android:onClick="takeSnapshot" />
     <TableRow>
         <TextView android:layout_column="1"
             android:text="@string/received" android:layout_gravity="right" android:textSize="20sp"/>
         <TextView android:text="@string/sent" android:layout_gravity="right" android:textSize="20sp"/>
     </TableRow>
+
+    <TableRow>
+        <TextView
+            android:gravity="right" android:text="@string/total_header"
+            android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+    </TableRow>
+
     <TableRow>
         <TextView
             android:gravity="right" android:text="@string/previous"
@@ -19,6 +25,7 @@
         <TextView android:id="@+id/previous_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
         <TextView android:id="@+id/previous_tx" android:gravity="right" android:textSize="20sp"/>
     </TableRow>
+
     <TableRow>
         <TextView
             android:gravity="right" android:text="@string/latest"
@@ -26,6 +33,7 @@
         <TextView android:id="@+id/latest_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
         <TextView android:id="@+id/latest_tx" android:gravity="right" android:textSize="20sp"/>
     </TableRow>
+
     <TableRow>
         <TextView
             android:gravity="right" android:text="@string/delta"
@@ -33,6 +41,37 @@
         <TextView android:id="@+id/delta_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
         <TextView android:id="@+id/delta_tx" android:gravity="right" android:textSize="20sp"/>
     </TableRow>
+
+    <TableRow>
+        <TextView
+            android:gravity="right" android:text=""
+            android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/nbsp_1" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/nbsp_2" android:gravity="right" android:textSize="20sp"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:gravity="right" android:text="@string/tether_header"
+            android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:gravity="right" android:text="@string/tether_previous"
+            android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/tether_previous_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/tether_previous_tx" android:gravity="right" android:textSize="20sp"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:gravity="right" android:text="@string/tether_latest"
+            android:textStyle="bold" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/tether_latest_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
+        <TextView android:id="@+id/tether_latest_tx" android:gravity="right" android:textSize="20sp"/>
+    </TableRow>
+
     <TableRow>
         <TextView
             android:gravity="right" android:text="@string/tether_delta"
@@ -40,5 +79,8 @@
         <TextView android:id="@+id/tether_delta_rx" android:gravity="right" android:layout_marginRight="@dimen/margin_right" android:textSize="20sp"/>
         <TextView android:id="@+id/tether_delta_tx" android:gravity="right" android:textSize="20sp"/>
     </TableRow>
+
+
+    <Button android:text="Take Snapshot" android:onClick="takeSnapshot" />
 
 </TableLayout>

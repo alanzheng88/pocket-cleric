@@ -24,7 +24,9 @@ public class MainActivity extends Activity {
 
         // Clear shared login preferences
         // getSharedPreferences(PREFS_TAG, 0).edit().clear().commit();
-        startActivity(new Intent(this, TrafficMonitorActivity.class));
+
+        // Uncomment to skip to traffic monitor activity
+        //startActivity(new Intent(this, TrafficMonitorActivity.class));
     }
 
     // Triggers when SIGNUP Button clicked

@@ -50,8 +50,13 @@
 	<string name="sent">
 		<u>Sent</u>
 	</string>
+    <string name="total_header"><u>Total</u></string>
     <string name="latest">Latest</string>
     <string name="previous">Previous</string>
     <string name="delta">Delta</string>
+    <string name="tether_header"><u>Tether</u></string>
+    <string name="tether_latest">Latest</string>
+    <string name="tether_previous">Previous</string>
+    <string name="tether_delta">Delta</string>
     <string name="device"><i>(device)</i></string>
 </resources>

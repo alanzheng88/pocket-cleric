@@ -6,30 +6,35 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TethererActivity extends AppCompatActivity {
 
     private static final String TAG = TethererActivity.class.getSimpleName();
     private boolean mSystemWritePermission;
-    private TextView mConnectedDevicesTextView;
     private TextView mStatusTextView;
+    private RecyclerView mClientRecyclerView;
+    private List<ClientScanResult> mClientScanResultList;
+    private ClientDataAdapter mClientDataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tetherer);
 
-        mConnectedDevicesTextView = (TextView) findViewById(R.id.textview_connected_devices);
         mStatusTextView = (TextView) findViewById(R.id.textview_status);
+        mClientRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_client_devices);
+        mClientScanResultList = new ArrayList();
+        mClientDataAdapter = new ClientDataAdapter(mClientScanResultList, this);
+        mClientRecyclerView.setAdapter(mClientDataAdapter);
         updateStatus();
     }
 
@@ -117,19 +122,16 @@ public class TethererActivity extends AppCompatActivity {
 
     // @+id/button_get_connected_devices
     public void getConnectedDevices(View v) throws IOException {
+        List<ClientScanResult> tempClientScanList;
         if (ApManager.isApOn(TethererActivity.this)) {
-            // Storing all the info temporarily in a string for now
-            // later we will move it to a RecyclerView
-            String info = "";
             // When debugging, set the first argument for getClientList to false if you have hotspot
             // on but don't have data
-            List<ClientScanResult> clientScanResultList = ApManager.getClientList(false, 1000);
-            for (ClientScanResult clientResult : clientScanResultList) {
-                info += clientResult.getHwAddress() + "\n\n";
-            }
-            Log.d(TAG, "Displaying info: " + info);
-            mConnectedDevicesTextView.setText(info);
-
+            tempClientScanList = ApManager.getClientList(false, 1000);
+            Toast.makeText(this, tempClientScanList.isEmpty() ?
+                    "There are no connected clients" : "Acquired client list", Toast.LENGTH_SHORT).show();
+            mClientScanResultList.clear();
+            mClientScanResultList.addAll(tempClientScanList);
+            mClientDataAdapter.notifyDataSetChanged();
         } else {
             Toast.makeText(this, "Cannot get connected devices. Hotspot not enabled.", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Cannot get connected devices. Hotspot not enabled.");

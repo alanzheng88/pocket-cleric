@@ -288,8 +288,8 @@ public class TrafficMonitorActivity extends Activity {
                 tether_previous_rx.setText("N/A");
                 tether_previous_tx.setText("N/A");
 
-                tether_previous_rx.setText("N/A");
-                tether_previous_tx.setText("N/A");
+                tether_latest_rx.setText("N/A");
+                tether_latest_tx.setText("N/A");
 
                 tether_delta_rx.setText("N/A");
                 tether_delta_tx.setText("N/A");

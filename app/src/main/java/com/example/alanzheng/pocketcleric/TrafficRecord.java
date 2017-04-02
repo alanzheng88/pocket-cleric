@@ -17,6 +17,9 @@ public class TrafficRecord {
 
     long tx = 0;
     long rx = 0;
+    final String UID_STAT_DIR = "/proc/uid_stat/";
+    final String TCP_RVC = "tcp_rcv";
+    final String TCP_SND = "tcp_snd";
     String tag = null;
 
     TrafficRecord() {
@@ -25,11 +28,9 @@ public class TrafficRecord {
     }
 
     TrafficRecord(int uid) {
-        tx=TrafficStats.getUidTxBytes(uid);
-        rx=TrafficStats.getUidRxBytes(uid);
-
+        tx = TrafficStats.getUidTxBytes(uid);
+        rx = TrafficStats.getUidRxBytes(uid);
         //Log.d("DEBUG","uid: "+uid+", tx: "+tx+", rx: "+rx);
-
         this.tag = "Tether";
     }
 
@@ -43,16 +44,15 @@ public class TrafficRecord {
     }
 
     private Long getSentBytes(int localUid) {
-        File dir = new File("/proc/uid_stat/");
+        File dir = new File(UID_STAT_DIR);
         String[] children = dir.list();
         if (!Arrays.asList(children).contains(String.valueOf(localUid))) {
             return 0L;
         }
-        File uidFileDir = new File("/proc/uid_stat/" + String.valueOf(localUid));
-        File uidActualFileReceived = new File(uidFileDir, "tcp_rcv");
-        File uidActualFileSent = new File(uidFileDir, "tcp_snd");
+        File uidFileDir = new File(UID_STAT_DIR + String.valueOf(localUid));
+        File uidActualFileReceived = new File(uidFileDir, TCP_RVC);
+        File uidActualFileSent = new File(uidFileDir, TCP_SND);
 
-        String textReceived = "0";
         String textSent = "0";
 
         try {
@@ -61,32 +61,28 @@ public class TrafficRecord {
             String receivedLine;
             String sentLine;
 
-            if ((receivedLine = brReceived.readLine()) != null) {
-                textReceived = receivedLine;
-            }
             if ((sentLine = brSent.readLine()) != null) {
                 textSent = sentLine;
             }
 
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
         return Long.valueOf(textSent).longValue();
     }
 
     private Long getReceivedBytes(int localUid) {
 
-        File dir = new File("/proc/uid_stat/");
+        File dir = new File(UID_STAT_DIR);
         String[] children = dir.list();
         if (!Arrays.asList(children).contains(String.valueOf(localUid))) {
             return 0L;
         }
-        File uidFileDir = new File("/proc/uid_stat/" + String.valueOf(localUid));
-        File uidActualFileReceived = new File(uidFileDir, "tcp_rcv");
-        File uidActualFileSent = new File(uidFileDir, "tcp_snd");
+        File uidFileDir = new File(UID_STAT_DIR + String.valueOf(localUid));
+        File uidActualFileReceived = new File(uidFileDir, TCP_RVC);
+        File uidActualFileSent = new File(uidFileDir, TCP_SND);
 
         String textReceived = "0";
-        String textSent = "0";
 
         try {
             BufferedReader brReceived = new BufferedReader(new FileReader(uidActualFileReceived));
@@ -97,12 +93,9 @@ public class TrafficRecord {
             if ((receivedLine = brReceived.readLine()) != null) {
                 textReceived = receivedLine;
             }
-            if ((sentLine = brSent.readLine()) != null) {
-                textSent = sentLine;
-            }
 
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
         return Long.valueOf(textReceived).longValue();
 

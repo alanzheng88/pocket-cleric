@@ -51,10 +51,10 @@ public class TethererActivity extends AppCompatActivity {
     private boolean checkSystemWritePermission() {
 
         int buildVersionSdk = Build.VERSION.SDK_INT;
+        Log.d(TAG, "build version: " + String.valueOf(buildVersionSdk));
 
+        // Proceed if Android build is at least 6.0
         if (buildVersionSdk >= Build.VERSION_CODES.M) {
-            // Proceed if Android build is at least 6.0
-            Log.d(TAG, "build version: " + String.valueOf(buildVersionSdk));
 
             // Check if app can write system settings
             boolean canWrite = Settings.System.canWrite(TethererActivity.this);
@@ -74,9 +74,11 @@ public class TethererActivity extends AppCompatActivity {
                 }
             }
             return false;
-        } else if (buildVersionSdk >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            // Proceed if Android build is at least 4.2.2
+        } else if (buildVersionSdk >= Build.VERSION_CODES.JELLY_BEAN) {
+            // Proceed if Android build is at least 4.1
             return true;
+        } else {
+            Log.d(TAG, "Android version " + String.valueOf(buildVersionSdk) + " is not supported.");
         }
         return false;
     }
@@ -136,17 +138,19 @@ public class TethererActivity extends AppCompatActivity {
             Toast.makeText(this, "Cannot get connected devices. Hotspot not enabled.", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Cannot get connected devices. Hotspot not enabled.");
         }
-
-
-
     }
 
-    // Triggers when LOGIN Button clicked
+    // Triggers when TRAFFIC Button clicked
     public void goToTrafficMonitorActivity(View arg0) {
-        // Create an intent for login activity
-        Intent i = new Intent(this, TrafficMonitorActivity.class);
-        // Send user to next activity
-        startActivity(i);
+        // Check Ap state
+        if (ApManager.isApOn(TethererActivity.this)) {
+            // Create an intent for login activity
+            Intent i = new Intent(this, TrafficMonitorActivity.class);
+            // Send user to next activity
+            startActivity(i);
+        } else {
+            // Prevent if Ap is off
+            Toast.makeText(this, "Please enable tethering.", Toast.LENGTH_SHORT).show();
+        }
     }
-
 }

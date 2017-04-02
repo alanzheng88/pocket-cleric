@@ -29,6 +29,9 @@ public class MainActivity extends Activity {
 
         // Uncomment to skip to traffic monitor activity
         //startActivity(new Intent(this, TrafficMonitorActivity.class));
+
+        // Uncomment to skip to traffic monitor activity
+        //startActivity(new Intent(this, TethererActivity.class));
     }
 
     // Triggers when SIGNUP Button clicked

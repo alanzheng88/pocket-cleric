@@ -3,6 +3,7 @@ package com.example.alanzheng.pocketcleric;
 import android.content.*;
 import android.net.wifi.*;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class ApManager {
 
+    public static final String PROC_NET_ARP = "/proc/net/arp";
     private static WifiManager mWifiManager;
     private static final String TAG = ApManager.class.getSimpleName();
 
@@ -32,7 +34,7 @@ public class ApManager {
         try {
             result = new ArrayList<>();
             // read file which shows list of connected devices from android device
-            br = new BufferedReader(new FileReader("/proc/net/arp"));
+            br = new BufferedReader(new FileReader(PROC_NET_ARP));
             String line;
 
             while ((line = br.readLine()) != null) {

@@ -44,7 +44,7 @@
     <string name="settings_text_size_hint">16</string>
 
 
-    	<string name="received">
+    <string name="received">
 		<u>Received</u>
 	</string>
 	<string name="sent">
@@ -59,4 +59,8 @@
     <string name="tether_previous">Previous</string>
     <string name="tether_delta">Delta</string>
     <string name="device"><i>(device)</i></string>
+
+    <string name="row_mac_address">mac address</string>
+    <string name="row_device">device</string>
+    <string name="row_is_reachable">is reachable</string>
 </resources>

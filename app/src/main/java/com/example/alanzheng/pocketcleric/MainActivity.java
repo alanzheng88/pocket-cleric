@@ -22,6 +22,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//            startActivity(new Intent(this, TethererActivity.class)); // hack to go straight to Tetherer activity for debugging
+
         // Clear shared login preferences
         // getSharedPreferences(PREFS_TAG, 0).edit().clear().commit();
 

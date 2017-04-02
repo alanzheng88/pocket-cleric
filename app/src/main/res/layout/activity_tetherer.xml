@@ -102,23 +102,27 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
+                android:layout_marginBottom="3dp"
                 android:text="@string/connected_devices"
                 android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textview_connected_devices"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_client_devices"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5"
-                android:padding="5dp"
-                android:text="" />
+                android:layout_weight="3"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                app:layoutManager="LinearLayoutManager" />
 
             <Button
                 android:id="@+id/button_get_connected_devices"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="2"
+                android:layout_marginTop="4dp"
                 android:onClick="getConnectedDevices"
                 android:text="@string/get_connected_devices"
                 android:textSize="10sp" />
@@ -141,6 +145,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/chat"
+                android:textColor="@color/colorWhite"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
         </LinearLayout>

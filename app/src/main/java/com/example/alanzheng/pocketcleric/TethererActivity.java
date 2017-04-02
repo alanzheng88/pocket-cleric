@@ -127,7 +127,8 @@ public class TethererActivity extends AppCompatActivity {
             // When debugging, set the first argument for getClientList to false if you have hotspot
             // on but don't have data
             tempClientScanList = ApManager.getClientList(false, 1000);
-            Toast.makeText(this, tempClientScanList.isEmpty() ? "client list is empty" : "client scan list is not empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, tempClientScanList.isEmpty() ?
+                    "There are no connected clients" : "Acquired client list", Toast.LENGTH_SHORT).show();
             mClientScanResultList.clear();
             mClientScanResultList.addAll(tempClientScanList);
             mClientDataAdapter.notifyDataSetChanged();

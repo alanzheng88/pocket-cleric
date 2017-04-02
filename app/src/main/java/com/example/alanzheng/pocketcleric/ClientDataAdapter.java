@@ -38,7 +38,6 @@ public class ClientDataAdapter extends RecyclerView.Adapter<ClientDataAdapter.Vi
     public ClientDataAdapter(List<ClientScanResult> clientScanResults, Context context) {
         mContext = context;
         mClientScanResults = clientScanResults;
-        Toast.makeText(mContext, "ClientAdapter Count", Toast.LENGTH_SHORT).show();
     }
 
     @Override

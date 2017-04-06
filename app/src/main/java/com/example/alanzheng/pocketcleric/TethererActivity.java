@@ -1,7 +1,9 @@
 package com.example.alanzheng.pocketcleric;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -19,17 +21,38 @@ import java.util.List;
 public class TethererActivity extends AppCompatActivity {
 
     private static final String TAG = TethererActivity.class.getSimpleName();
+    private Context context;
     private boolean mSystemWritePermission;
     private TextView mStatusTextView;
     private RecyclerView mClientRecyclerView;
     private List<ClientScanResult> mClientScanResultList;
     private ClientDataAdapter mClientDataAdapter;
+    private Server server;
+    private Client client;
+
+    private class ClientTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            client = new Client(context, "alan_client");
+            client.connectToTethererDevice();
+            return null;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        server.close();
+        client.closeConnection();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tetherer);
 
+        this.context = this;
         mStatusTextView = (TextView) findViewById(R.id.textview_status);
         mClientRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_client_devices);
         mClientScanResultList = new ArrayList();
@@ -151,6 +174,25 @@ public class TethererActivity extends AppCompatActivity {
         } else {
             // Prevent if Ap is off
             Toast.makeText(this, "Please enable tethering.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // @+id/button_enable_server
+    public void enableServer(View v) {
+        if (server == null) {
+            server = new Server(this);
+        }
+        server.start();
+    }
+
+    // @+id/button_enable_client
+    // This method only works on a client device
+    // and not on the tetherer device itself
+    public void enableClient(View v) {
+        if (client == null || !client.isConnected()) {
+            new ClientTask().execute();
+        } else {
+            Toast.makeText(this, "Device has already been connected.", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -78,7 +78,9 @@ public class Server extends ClientServerHelper {
             serverThread.closeSocket();
         }
         try {
-            serverSocket.close();
+            if (serverSocket != null) {
+                serverSocket.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

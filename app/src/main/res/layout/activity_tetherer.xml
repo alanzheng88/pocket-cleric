@@ -43,12 +43,28 @@
             android:text="@string/enable" />
 
         <Button
-            android:text="Traffic"
+            android:id="@+id/button_traffic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
+            android:layout_weight="1"
             android:onClick="goToTrafficMonitorActivity"
-            android:layout_weight="1" />
+            android:text="Traffic" />
+
+        <Button
+            android:id="@+id/button_enable_server"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="enableServer"
+            android:text="Server" />
+
+        <Button
+            android:id="@+id/button_enable_client"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="enableClient"
+            android:text="Client" />
 
     </LinearLayout>
 

@@ -23,12 +23,15 @@ public class Server extends ClientServerHelper {
     private Socket socket;
     private AsyncTask serverAsyncTask;
 
-    private class ServerThreadTask extends AsyncTask<Void, ServerThread, ServerThread> {
+    private class ServerThreadTask extends AsyncTask<Void, ServerThread, Void> {
 
         @Override
-        protected ServerThread doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             while (true) {
                 try {
+                    if (serverSocket == null || serverSocket.isClosed()) {
+                        serverSocket = new ServerSocket(SERVER_PORT);
+                    }
                     Log.i(TAG, "Waiting for client to connected");
                     socket = serverSocket.accept();
                     String name = socket.getRemoteSocketAddress().toString();
@@ -56,20 +59,17 @@ public class Server extends ClientServerHelper {
         serverAsyncTask = null;
     }
 
-    public void start() {
-        try {
-            if (serverAsyncTask != null &&
-                    !serverAsyncTask.isCancelled()) {
-                return;
-            }
-            if (serverSocket == null) {
-                serverSocket = new ServerSocket(SERVER_PORT);
-            }
-            serverAsyncTask = new ServerThreadTask().execute();
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-        }
+    public List<ServerThread> getServerThreads() {
+        return serverThreads;
+    }
 
+    public void start() {
+        boolean hasServerThreadTask = serverAsyncTask != null &&
+                !serverAsyncTask.isCancelled();
+        if (hasServerThreadTask) {
+            return;
+        }
+        serverAsyncTask = new ServerThreadTask().execute();
 
     }
 
@@ -82,7 +82,7 @@ public class Server extends ClientServerHelper {
                 serverSocket.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
     }
 

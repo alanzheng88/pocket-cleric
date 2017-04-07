@@ -15,6 +15,37 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/button_enable_server"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="enableServer"
+            android:text="Server" />
+
+        <Button
+            android:id="@+id/button_enable_client"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="enableClient"
+            android:text="Client" />
+
+        <Button
+            android:id="@+id/button_send_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="sendDataToAllClients"
+            android:text="Send Data" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.3"
+        android:orientation="horizontal">
+
+        <Button
             android:id="@+id/button_enable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,24 +68,6 @@
             android:layout_weight="1"
             android:onClick="goToTrafficMonitorActivity"
             android:text="Traffic"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_enable_server"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="enableServer"
-            android:text="Server"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/button_enable_client"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="enableClient"
-            android:text="Client"
             android:visibility="gone" />
 
         <Button
@@ -113,7 +126,7 @@
 
         <LinearLayout
             android:id="@+id/linearlayout_devices"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:layout_weight="1"
@@ -154,7 +167,7 @@
 
         <LinearLayout
             android:id="@+id/linearlayout_chat"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"

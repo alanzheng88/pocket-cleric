@@ -3,9 +3,12 @@ package com.example.alanzheng.pocketcleric;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TethererActivity extends AppCompatActivity {
+public class TethererActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final String TAG = TethererActivity.class.getSimpleName();
     private Context context;
@@ -31,24 +34,16 @@ public class TethererActivity extends AppCompatActivity {
     private Client client;
     private Pulse pulse;
 
-    private class ClientTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            client = new Client(context, "alan_client");
-            client.connectToTethererDevice();
-            return null;
-        }
-    }
-
     @Override
-    protected void onStop() {
-        super.onStop();
-        if (server != null) {
-            server.close();
-        }
+    protected void onPause() {
+        super.onPause();
         if (client != null) {
             client.closeConnection();
+            client = null;
+        }
+        if (server != null) {
+            server.close();
+            server = null;
         }
     }
 
@@ -202,10 +197,23 @@ public class TethererActivity extends AppCompatActivity {
     // This method only works on a client device
     // and not on the tetherer device itself
     public void enableClient(View v) {
-        if (client == null || !client.isConnected()) {
-            new ClientTask().execute();
-        } else {
-            Toast.makeText(this, "Device has already been connected.", Toast.LENGTH_SHORT).show();
+        if (client == null) {
+            WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo info = manager.getConnectionInfo();
+            String macAddress = info.getMacAddress();
+            client = Client.create(this, macAddress);
+        }
+        client.start();
+    }
+
+    // @+id/button_send_data
+    public void sendDataToAllClients(View v) {
+        if (server != null) {
+            List<ServerThread> serverThreads = server.getServerThreads();
+            for (ServerThread serverThread : serverThreads) {
+                Log.d(TAG, "Sending data for " + serverThread.getName());
+                serverThread.sendData("http://youtube.com\n");
+            }
         }
     }
 

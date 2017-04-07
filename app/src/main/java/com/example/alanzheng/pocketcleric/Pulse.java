@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import static android.app.AppOpsManager.OPSTR_GET_USAGE_STATS;
 
-class Pulse {
+class Pulse implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final String TAG = Pulse.class.getSimpleName();
     private static final String PREFS_TAG = "LoginData";

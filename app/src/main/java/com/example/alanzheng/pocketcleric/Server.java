@@ -26,7 +26,7 @@ public class Server extends ClientServerHelper {
 
         @Override
         protected Void doInBackground(Void... params) {
-            while (true) {
+            while (!isCancelled()) {
                 try {
                     if (serverSocket == null || serverSocket.isClosed()) {
                         serverSocket = new ServerSocket(SERVER_PORT);
@@ -43,6 +43,7 @@ public class Server extends ClientServerHelper {
                     Log.e(TAG, e.getMessage());
                 }
             }
+            return null;
         }
 
         @Override
@@ -71,7 +72,6 @@ public class Server extends ClientServerHelper {
             return;
         }
         serverAsyncTask = new ServerThreadTask().execute();
-
     }
 
     public void close() {

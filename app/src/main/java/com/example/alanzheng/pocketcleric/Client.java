@@ -80,7 +80,7 @@ public class Client extends ClientServerHelper {
                 Log.e(TAG, "Socket Timeout:" + e.getMessage());
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
-                displayToastMessage("Attempting to connect...");
+                //displayToastMessage("Attempting to connect...");
                 try {
                     if (socket != null) {
                         socket.close();

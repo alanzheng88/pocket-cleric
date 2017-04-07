@@ -202,38 +202,6 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         }
     }
 
-    // @+id/button_enable_server
-    public void enableServer(View v) {
-        if (server == null) {
-            server = new Server(this);
-        }
-        server.start();
-    }
-
-    // @+id/button_enable_client
-    // This method only works on a client device
-    // and not on the tetherer device itself
-    public void enableClient(View v) {
-        if (client == null) {
-            WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            WifiInfo info = manager.getConnectionInfo();
-            String macAddress = info.getMacAddress();
-            client = Client.create(this, macAddress);
-        }
-        client.start();
-    }
-
-    // @+id/button_send_data
-    public void sendDataToAllClients(View v) {
-        if (server != null) {
-            List<ServerThread> serverThreads = server.getServerThreads();
-            for (ServerThread serverThread : serverThreads) {
-                Log.d(TAG, "Sending data for " + serverThread.getName());
-                serverThread.sendData("http://youtube.com\n");
-            }
-        }
-    }
-
     // @+id/button_pulse hook
     public void onPulse(View v) {
         // Commit pulse

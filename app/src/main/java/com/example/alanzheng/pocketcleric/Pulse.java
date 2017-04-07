@@ -285,7 +285,7 @@ class Pulse implements ActivityCompat.OnRequestPermissionsResultCallback {
 
             // This method will be running on UI thread
             pdLoading.setMessage("\tSending Pulse...");
-            pdLoading.setCancelable(false);
+            pdLoading.setCancelable(true);
             pdLoading.show();
         }
 

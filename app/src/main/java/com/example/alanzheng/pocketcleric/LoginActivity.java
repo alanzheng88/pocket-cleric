@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
             // This method will be running on UI thread
             pdLoading.setMessage("\tLogging In...");
-            pdLoading.setCancelable(false);
+            pdLoading.setCancelable(true);
             pdLoading.show();
         }
 

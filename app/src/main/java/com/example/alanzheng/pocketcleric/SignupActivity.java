@@ -141,7 +141,7 @@ public class SignupActivity extends AppCompatActivity {
 
             // This method will be running on UI thread
             pdLoading.setMessage("\tCreating Account...");
-            pdLoading.setCancelable(false);
+            pdLoading.setCancelable(true);
             pdLoading.show();
         }
 

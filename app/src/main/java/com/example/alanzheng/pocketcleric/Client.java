@@ -23,6 +23,7 @@ public class Client extends ClientServerHelper {
     private Socket socket;
     private BufferedReader reader;
     private AsyncTask clientThreadTask;
+    private ReceptorInterface receptorInterface;
 
     private class ClientThreadTask extends AsyncTask<String, Void, String> {
 
@@ -45,6 +46,11 @@ public class Client extends ClientServerHelper {
         socket = null;
         reader = null;
         clientThreadTask = null;
+        receptorInterface = null;
+    }
+
+    public void register(ReceptorInterface receptorInterface) {
+        this.receptorInterface = receptorInterface;
     }
 
     public void start() {
@@ -60,16 +66,30 @@ public class Client extends ClientServerHelper {
     }
 
     public void connectToTethererDevice() {
-        Log.d(TAG, "Connecting");
-        try {
-            socket = new Socket();
-            socket.connect(new InetSocketAddress(TETHERING_IP, Server.SERVER_PORT), CONNECTION_MAX);
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            displayToastMessage("Connected");
-            Log.d(TAG, "Connected");
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-            displayToastMessage("Connection failed");
+        while (!isConnected()) {
+            Log.d(TAG, "Connecting");
+            try {
+                socket = new Socket();
+                socket.connect(new InetSocketAddress(TETHERING_IP, Server.SERVER_PORT), CONNECTION_MAX);
+                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                displayToastMessage("Connected");
+                Log.d(TAG, "Connected");
+
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+                displayToastMessage("Connection failed");
+                try {
+                    if (socket != null) {
+                        socket.close();
+                        Log.d(TAG, "Sleeping for a few seconds before retrying...");
+                        Thread.sleep(5000);
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
         }
     }
 
@@ -80,6 +100,7 @@ public class Client extends ClientServerHelper {
                 if (message != null) {
                     Log.d(TAG, "message received: " + message);
                     displayToastMessage("message received: " + message);
+                    receptorInterface.processData(message);
                 }
 
             }

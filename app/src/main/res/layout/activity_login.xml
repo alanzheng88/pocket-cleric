@@ -80,12 +80,20 @@
 
         <Button
             android:id="@+id/submitButton"
-            android:text="@string/login_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginBottom="4dp"
             android:onClick="submitLogin"
-            android:layout_marginBottom="30dp"/>
+            android:text="@string/login_submit" />
+
+        <Button
+            android:id="@+id/loginGuestButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:onClick="guestLogin"
+            android:text="@string/login_guest_submit" />
 
         <Button
             android:id="@+id/submitRegister"

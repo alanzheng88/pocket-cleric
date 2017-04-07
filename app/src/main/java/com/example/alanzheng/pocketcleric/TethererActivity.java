@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +13,9 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +29,11 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
     private Context context;
     private boolean mSystemWritePermission;
     private TextView mStatusTextView;
+    private WebView tethererWebView;
     private RecyclerView mClientRecyclerView;
     private List<ClientScanResult> mClientScanResultList;
     private ClientDataAdapter mClientDataAdapter;
+    private EditText searchbarEditText;
     private Server server;
     private Client client;
     private Pulse pulse;
@@ -62,11 +66,24 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         pulse.takePulse(this);
 
         mStatusTextView = (TextView) findViewById(R.id.textview_status);
+        tethererWebView = (WebView) findViewById(R.id.tethererWebView);
+        tethererWebView.setWebViewClient(new WebViewClient());
         mClientRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_client_devices);
         mClientScanResultList = new ArrayList();
         mClientDataAdapter = new ClientDataAdapter(mClientScanResultList, this);
         mClientRecyclerView.setAdapter(mClientDataAdapter);
+        searchbarEditText = (EditText) findViewById(R.id.searchbarEditText);
+
         updateStatus();
+
+        startServer();
+    }
+
+    private void startServer() {
+        if (server == null) {
+            server = new Server(this);
+        }
+        server.start();
     }
 
     private void updateStatus() {
@@ -231,6 +248,19 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         Log.d(TAG,"Logging out...");
         Session session = new Session(this);
         session.logoutUser();
+    }
+
+    // @+id/browseButton
+    public void handleSearch(View v) {
+        String url = searchbarEditText.getText().toString();
+        tethererWebView.loadUrl(url);
+        if (server != null) {
+            List<ServerThread> serverThreads = server.getServerThreads();
+            for (ServerThread serverThread : serverThreads) {
+                Log.d(TAG, "Sending data for " + serverThread.getName());
+                serverThread.sendData(url + "\n");
+            }
+        }
     }
 
     @Override

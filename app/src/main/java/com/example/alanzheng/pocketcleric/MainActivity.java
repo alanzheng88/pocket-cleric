@@ -58,6 +58,12 @@ public class MainActivity extends Activity {
         startActivity(i);
     }
 
+    // Triggers when GUEST Button clicked
+    public void goToReceptorActivity(View view) {
+        Intent i = new Intent(this, ReceptorActivity.class);
+        startActivity(i);
+    }
+
     // Not used currently (after shared preferences are implemented)
     public void goToNextActivityIfLoggedIn()
     {

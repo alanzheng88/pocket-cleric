@@ -63,11 +63,13 @@ class Pulse implements ActivityCompat.OnRequestPermissionsResultCallback {
     long delta_tx_value = 0;
     long tether_delta_rx_value = 0;
     long tether_delta_tx_value = 0;
+    boolean running;
 
     // Constructor
     Pulse(Context context) {
         // Get activity context
         this.context = context;
+        running = false;
 
         // Compute data usage of tethering by Android version
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -250,6 +252,7 @@ class Pulse implements ActivityCompat.OnRequestPermissionsResultCallback {
                     Log.d(TAG, "Pulsing for user " + username);
 
                     // Process on a background thread
+                    running = true;
                     new AsyncPulse(cxt).execute(username, String.valueOf(rx), String.valueOf(tx));
                 } else {
                     Log.d(TAG, "Could not pulse. Username was null.");
@@ -380,8 +383,10 @@ class Pulse implements ActivityCompat.OnRequestPermissionsResultCallback {
                 Session session = new Session(context);
                 HashMap<String, String> user = session.getUserDetails();
                 String username = user.get(user.keySet().toArray()[0]);
+                running = false;
                 Toast.makeText(context, "Successfully pulsed, " + username + "!\n\nDownload: " + Utility.humanReadableByteCount(tether_delta_tx_value) + "\nUpload: " + Utility.humanReadableByteCount(tether_delta_rx_value), Toast.LENGTH_LONG).show();
             }
+
             else if (result.equalsIgnoreCase("false")) {
                 // Pulse failed
                 Toast.makeText(context, "Pulse failed. The server may be down.", Toast.LENGTH_LONG).show();

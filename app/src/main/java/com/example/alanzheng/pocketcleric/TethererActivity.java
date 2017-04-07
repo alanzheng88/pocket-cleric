@@ -3,6 +3,7 @@ package com.example.alanzheng.pocketcleric;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class TethererActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -27,6 +30,8 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
     private Context context;
     private boolean mSystemWritePermission;
     private TextView mStatusTextView;
+    private TextView mRxTextView;
+    private TextView mTxTextView;
     private WebView tethererWebView;
     private RecyclerView mClientRecyclerView;
     private List<ClientScanResult> mClientScanResultList;
@@ -39,13 +44,9 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
     @Override
     protected void onPause() {
         super.onPause();
-        if (client != null) {
-            client.closeConnection();
-            client = null;
-        }
-        if (server != null) {
-            server.close();
-        }
+
+        // Suspend the server
+        stopServer();
     }
 
     @Override
@@ -63,6 +64,8 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         pulse.takePulse(this);
 
         mStatusTextView = (TextView) findViewById(R.id.textview_status);
+        mRxTextView = (TextView) findViewById(R.id.textview_rx);
+        mTxTextView = (TextView) findViewById(R.id.textview_tx);
         tethererWebView = (WebView) findViewById(R.id.tethererWebView);
         tethererWebView.setWebViewClient(new WebViewClient());
         mClientRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_client_devices);
@@ -70,10 +73,15 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         mClientDataAdapter = new ClientDataAdapter(mClientScanResultList, this);
         mClientRecyclerView.setAdapter(mClientDataAdapter);
         searchbarEditText = (EditText) findViewById(R.id.searchbarEditText);
+        // Place cursor at end
+        searchbarEditText.setSelection(searchbarEditText.getText().length());
 
         updateStatus();
 
         startServer();
+
+        Timer timer = new Timer();
+        timer.schedule(new CheckIfPulseDone(), 0, 5000);
     }
 
     @Override
@@ -82,7 +90,7 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         startServer();
     }
 
-    private void startServer() {
+    public void startServer() {
         if (server == null) {
             server = new Server(this);
         }
@@ -96,6 +104,8 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         } else {
             mStatusTextView.setText(statusString + ": disabled");
         }
+        mRxTextView.setText("Receieved: " + Utility.humanReadableByteCount(pulse.tether_latest_rx_value));
+        mTxTextView.setText("Transmitted: " + Utility.humanReadableByteCount(pulse.tether_latest_tx_value));
     }
 
     // Allow user to manually allow manifest to write permissions
@@ -209,8 +219,36 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
     public void onPulse(View v) {
         // Commit pulse
         Log.d(TAG,"Taking pulse...");
-        // Take pulse
+
+        // Suspend the server
+        stopServer();
+
+        // Start pulse
         pulse.takePulse(this);
+
+        mRxTextView.setText("Receieved: " + Utility.humanReadableByteCount(pulse.tether_latest_rx_value));
+        mTxTextView.setText("Transmitted: " + Utility.humanReadableByteCount(pulse.tether_latest_tx_value));
+    }
+
+    // Try to start server every 5 seconds
+    // This is a workaround not knowing when pulse.takePulse() is done.
+    // We can't call startServer() from the pulse class
+    class CheckIfPulseDone extends TimerTask {
+        public void run() {
+            if (!pulse.running) {
+                startServer();
+            }
+        }
+    }
+
+    private void stopServer() {
+        if (client != null) {
+            client.closeConnection();
+            client = null;
+        }
+        if (server != null) {
+            server.close();
+        }
     }
 
     // @+id/button_logout hook
@@ -219,6 +257,7 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         Log.d(TAG,"Logging out...");
         Session session = new Session(this);
         session.logoutUser();
+        stopServer();
     }
 
     // @+id/browseButton

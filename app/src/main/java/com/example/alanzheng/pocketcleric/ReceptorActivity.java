@@ -28,6 +28,7 @@ public class ReceptorActivity extends AppCompatActivity {
                     receptorWebView.loadUrl(data);
                 }
             });
+            Log.d(TAG, "finish processing data");
         }
     }
 
@@ -38,6 +39,12 @@ public class ReceptorActivity extends AppCompatActivity {
         context = getApplicationContext();
         receptorWebView = (WebView) findViewById(R.id.receptorWebView);
         receptorWebView.setWebViewClient(new WebViewClient());
+        startClient();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         startClient();
     }
 

@@ -29,6 +29,7 @@ public class TethererActivity extends AppCompatActivity {
     private ClientDataAdapter mClientDataAdapter;
     private Server server;
     private Client client;
+    private Pulse pulse;
 
     private class ClientTask extends AsyncTask<String, Void, String> {
 
@@ -43,8 +44,12 @@ public class TethererActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        server.close();
-        client.closeConnection();
+        if (server != null) {
+            server.close();
+        }
+        if (client != null) {
+            client.closeConnection();
+        }
     }
 
     @Override
@@ -52,7 +57,15 @@ public class TethererActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tetherer);
 
+        // Get application context
         this.context = this;
+
+        // Instantiate new pulse object
+        pulse = new Pulse(context);
+
+        // Take pulse
+        pulse.takePulse(this);
+
         mStatusTextView = (TextView) findViewById(R.id.textview_status);
         mClientRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_client_devices);
         mClientScanResultList = new ArrayList();
@@ -194,5 +207,28 @@ public class TethererActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Device has already been connected.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // @+id/button_pulse hook
+    public void onPulse(View v) {
+        // Commit pulse
+        Log.d(TAG,"Taking pulse...");
+        // Take pulse
+        pulse.takePulse(this);
+    }
+
+    // @+id/button_logout hook
+    public void onLogout(View v) {
+        // Commit pulse
+        Log.d(TAG,"Logging out...");
+        Session session = new Session(this);
+        session.logoutUser();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        // Exit application immediately
+        moveTaskToBack(true);
     }
 }

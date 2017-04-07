@@ -3,13 +3,11 @@ package com.example.alanzheng.pocketcleric;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -47,7 +45,6 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         }
         if (server != null) {
             server.close();
-            server = null;
         }
     }
 
@@ -76,6 +73,12 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
 
         updateStatus();
 
+        startServer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         startServer();
     }
 
@@ -222,7 +225,9 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
     public void handleSearch(View v) {
         String url = searchbarEditText.getText().toString();
         tethererWebView.loadUrl(url);
+        Log.d(TAG, "handleSearch url: " + url);
         if (server != null) {
+            Log.d(TAG, "server is not null");
             List<ServerThread> serverThreads = server.getServerThreads();
             for (ServerThread serverThread : serverThreads) {
                 Log.d(TAG, "Sending data for " + serverThread.getName());

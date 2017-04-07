@@ -20,7 +20,6 @@ public class Server extends ClientServerHelper {
     public static final int SERVER_PORT = 9000;
     private final List<ServerThread> serverThreads;
     private ServerSocket serverSocket;
-    private Socket socket;
     private AsyncTask serverAsyncTask;
 
     private class ServerThreadTask extends AsyncTask<Void, ServerThread, Void> {
@@ -31,9 +30,11 @@ public class Server extends ClientServerHelper {
                 try {
                     if (serverSocket == null || serverSocket.isClosed()) {
                         serverSocket = new ServerSocket(SERVER_PORT);
+                        serverSocket.setReuseAddress(true);
                     }
-                    Log.i(TAG, "Waiting for client to connected");
-                    socket = serverSocket.accept();
+                    Log.i(TAG, "Waiting for client to connect");
+                    Socket socket = serverSocket.accept();
+                    Log.i(TAG, "Connection accepted");
                     String name = socket.getRemoteSocketAddress().toString();
                     ServerThread serverThread = new ServerThread(name, socket);
                     serverThreads.add(serverThread);
@@ -77,8 +78,10 @@ public class Server extends ClientServerHelper {
         for (ServerThread serverThread : serverThreads) {
             serverThread.closeSocket();
         }
+        serverThreads.clear();
         try {
             if (serverSocket != null) {
+                serverAsyncTask.cancel(true);
                 serverSocket.close();
             }
         } catch (IOException e) {

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by alanzheng on 2017-04-06.
@@ -75,6 +76,8 @@ public class Client extends ClientServerHelper {
                 displayToastMessage("Connected");
                 Log.d(TAG, "Connected");
 
+            } catch (SocketTimeoutException e) {
+                Log.e(TAG, "Socket Timeout:" + e.getMessage());
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
                 displayToastMessage("Connection failed");
@@ -97,12 +100,15 @@ public class Client extends ClientServerHelper {
         try {
             while (reader != null) {
                 String message = reader.readLine();
-                if (message != null) {
-                    Log.d(TAG, "message received: " + message);
-                    displayToastMessage("message received: " + message);
-                    receptorInterface.processData(message);
+
+                if (message == null) {
+                    closeConnection();
+                    break;
                 }
 
+                Log.d(TAG, "message received: " + message);
+                displayToastMessage("message received: " + message);
+                receptorInterface.processData(message);
             }
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());

@@ -57,8 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         final String username = etUsername.getText().toString().trim();
         final String password = etPassword.getText().toString();
 
-        boolean usernameEntered = !username.equals("");
-        boolean passwordEntered = !password.equals("");
+        boolean usernameEntered = !username.isEmpty();
+        boolean passwordEntered = !password.isEmpty();
 
         // Check if username field is not blank
         if (usernameEntered)

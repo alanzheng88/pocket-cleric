@@ -53,8 +53,8 @@ public class SignupActivity extends AppCompatActivity {
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
         String password2 = password2EditText.getText().toString();
-        boolean usernameEntered = !username.equals("");
-        boolean passwordEntered = !password.equals("");
+        boolean usernameEntered = !username.isEmpty();
+        boolean passwordEntered = !password.isEmpty();
         boolean passwordsMatch = password.equals(password2);
 
         // Check if username field is not blank

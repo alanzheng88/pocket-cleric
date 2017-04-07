@@ -106,6 +106,35 @@
             android:textAllCaps="true"
             android:textSize="10dp"
             android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_searchbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/searchbarEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="http://youtube.com"
+            android:inputType="textPersonName"
+            android:text="http://" />
+
+        <Button
+            android:id="@+id/browseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="handleSearch"
+            android:text="@string/tetherer_search" />
     </LinearLayout>
 
     <LinearLayout
@@ -116,7 +145,13 @@
         android:layout_marginRight="10dp"
         android:layout_weight="8"
         android:background="@color/colorAccent"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal">
+
+        <WebView
+            android:id="@+id/tethererWebView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

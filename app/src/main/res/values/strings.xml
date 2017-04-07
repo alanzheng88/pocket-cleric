@@ -11,6 +11,7 @@
     <string name="chat">chat</string>
 
     <string name="tetherer_label">PocketCleric</string>
+    <string name="tetherer_search">Search</string>
     <string name="already_registered">I already have an account</string>
 
     <string name="text_size">16dp</string>
@@ -26,12 +27,15 @@
 
     <string name="login_label">Log In</string>
     <string name="login_submit">Log In</string>
+    <string name="login_guest_submit">Guest</string>
 
     <string name="login_username">Username</string>
     <string name="login_username_hint">Enter your username</string>
     <string name="login_password">Password</string>
     <string name="login_password_hint">Enter your password</string>
     <string name="login_register">Create A New Account</string>
+
+    <string name="receptor_title">Guest</string>
 
     <string name="settings_label">Settings</string>
     <string name="settings_submit">Save Settings</string>
@@ -47,7 +51,7 @@
     <string name="received">
 		<u>Received</u>
 	</string>
-	<string name="sent">
+    <string name="sent">
 		<u>Sent</u>
 	</string>
     <string name="total_header"><u>Total</u></string>

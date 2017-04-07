@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Triggers when LOGIN Button clicked
-    public void submitLogin(View arg0) {
+    public void submitLogin(View view) {
 
         // Get text from username and password field
         final String username = etUsername.getText().toString().trim();
@@ -80,10 +80,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     // Triggers when SIGNUP Button clicked
-    public void submitRegister (View arg0) {
+    public void submitRegister(View view) {
         // Create an intent for signup activity
         Intent i = new Intent(this, SignupActivity.class);
         // Send user to next activity
+        startActivity(i);
+    }
+
+    // Triggers when GUEST Button clicked
+    public void guestLogin(View view) {
+        Intent i = new Intent(this, ReceptorActivity.class);
         startActivity(i);
     }
 

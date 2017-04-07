@@ -27,13 +27,12 @@ import java.net.URL;
 public class SignupActivity extends AppCompatActivity {
 
     // Declare instance variables
+    public static final int CONNECTION_TIMEOUT = 10000; // in milliseconds
+    public static final int READ_TIMEOUT = 15000; // in milliseconds
+
     public EditText usernameEditText;
     public EditText passwordEditText;
     public EditText password2EditText;
-    public static final String PREFS_TAG = "LoginData";
-    public static final String DEFAULT = "NULL";
-    public static final int CONNECTION_TIMEOUT = 10000; // in milliseconds
-    public static final int READ_TIMEOUT = 15000; // in milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,15 +53,9 @@ public class SignupActivity extends AppCompatActivity {
         String username = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
         String password2 = password2EditText.getText().toString();
-        boolean usernameEntered = !username.equals("");
-        boolean passwordEntered = !password.equals("");
+        boolean usernameEntered = !username.isEmpty();
+        boolean passwordEntered = !password.isEmpty();
         boolean passwordsMatch = password.equals(password2);
-
-        // Preferences files identified by the first parameter
-        SharedPreferences sp = getSharedPreferences(PREFS_TAG, Context.MODE_PRIVATE);
-
-        // Call edit() to get a SharedPreferences.Editor
-        SharedPreferences.Editor e = sp.edit();
 
         // Check if username field is not blank
         if (usernameEntered)
@@ -82,15 +75,6 @@ public class SignupActivity extends AppCompatActivity {
                             // Check password does not equal username
                             if (!password.equals(username))
                             {
-                                // Add values with methods such as putBoolean() and putString().
-                                e.putString("username_" + username, username);
-                                e.putString("password_" + username, password);
-                                e.putBoolean("users_exist", true);
-
-                                // Commit the new values with commit()
-                                e.commit();
-                                //Toast.makeText(this, "Successfully commit", Toast.LENGTH_LONG).show();
-
                                 // Initialize  AsyncSignup() class with username and password
                                 new AsyncSignup().execute(username, password);
 
@@ -136,7 +120,12 @@ public class SignupActivity extends AppCompatActivity {
     public void onBackPressed()
     {
         // Exit application immediately
-        moveTaskToBack(true);
+        //moveTaskToBack(true);
+
+        // Go to main activity
+        Intent i = new Intent(this, MainActivity.class);
+        // Send user to next activity
+        startActivity(i);
     }
 
 

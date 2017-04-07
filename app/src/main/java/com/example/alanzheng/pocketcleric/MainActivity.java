@@ -5,39 +5,47 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
     // Declare instance variables
     private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String PREFS_TAG = "LoginData";
-    private static final String DEFAULT = "NULL";
 
-    public SharedPreferences sp;
-    public boolean usersExist;
-    public Intent i;
-
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            startActivity(new Intent(this, TethererActivity.class)); // hack to go straight to Tetherer activity for debugging
+        // Uncomment to clear shared login preferences
+        //getSharedPreferences(PREFS_TAG, 0).edit().clear().commit();
 
-        // Clear shared login preferences
-        // getSharedPreferences(PREFS_TAG, 0).edit().clear().commit();
+        // Send user to next activity based on shared preferences
+        goToNextActivityIfLoggedIn();
+
+        // Uncomment to skip to tetherer monitor activity
+        //startActivity(new Intent(this, TethererActivity.class));
 
         // Uncomment to skip to traffic monitor activity
         //startActivity(new Intent(this, TrafficMonitorActivity.class));
+    }
 
-        // Uncomment to skip to traffic monitor activity
-        //startActivity(new Intent(this, TethererActivity.class));
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        // Send user to next activity
+        goToNextActivityIfLoggedIn();
     }
 
     // Triggers when SIGNUP Button clicked
     public void goToSignupActivity(View arg0) {
         // Create an intent for signup activity
-        i = new Intent(this, SignupActivity.class);
+        Intent i = new Intent(this, SignupActivity.class);
         // Send user to next activity
         startActivity(i);
     }
@@ -45,25 +53,24 @@ public class MainActivity extends Activity {
     // Triggers when LOGIN Button clicked
     public void goToLoginActivity(View arg0) {
         // Create an intent for login activity
-        i = new Intent(this, LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         // Send user to next activity
         startActivity(i);
     }
 
     // Not used currently (after shared preferences are implemented)
-    public void goToNextActivity()
+    public void goToNextActivityIfLoggedIn()
     {
-        // Get shared preferences for reading
-        sp = getSharedPreferences(PREFS_TAG, Context.MODE_PRIVATE);
+        // Check if shared preferences exist
+        Session session = new Session(getApplicationContext());
+        if (session.isUserLoggedIn())
+        {
+            // If they do, next activity is the login activity
+            Intent i = new Intent(this, TethererActivity.class);
 
-        // Check if any accounts have been created (multi user signup per device)
-        usersExist = sp.getBoolean("users_exist", false);
-
-        // If shared preferences do not exist, send user to signup, else continue
-        i = (usersExist) ? new Intent(this, LoginActivity.class) : new Intent(this, SignupActivity.class);
-
-        // Send user to next activity
-        startActivity(i);
+            // Send user to next activity
+            startActivity(i);
+        }
     }
 }
 

@@ -8,18 +8,6 @@
     android:orientation="vertical"
     tools:context="com.example.alanzheng.pocketcleric.TethererActivity">
 
-    <TextView
-        android:id="@+id/textview_hotspot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/hotspot"
-        android:textAllCaps="true"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -58,14 +46,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_disable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onDisable"
-            android:text="@string/disable" />
-
-        <Button
             android:id="@+id/button_enable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,12 +54,38 @@
             android:text="@string/enable" />
 
         <Button
+            android:id="@+id/button_disable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onDisable"
+            android:text="@string/disable" />
+
+        <Button
             android:id="@+id/button_traffic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="goToTrafficMonitorActivity"
-            android:text="Traffic" />
+            android:text="Traffic"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/button_pulse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onPulse"
+            android:text="@string/pulse"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onLogout"
+            android:text="@string/logout" />
 
     </LinearLayout>
 
@@ -120,7 +126,7 @@
 
         <LinearLayout
             android:id="@+id/linearlayout_devices"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:layout_weight="1"
@@ -161,14 +167,15 @@
 
         <LinearLayout
             android:id="@+id/linearlayout_chat"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@color/colorAccent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/textview_chat_title"
@@ -176,9 +183,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/chat"
-                android:textColor="@color/colorWhite"
                 android:textAllCaps="true"
+                android:textColor="@color/colorWhite"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

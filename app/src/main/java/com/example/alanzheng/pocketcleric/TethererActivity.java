@@ -8,6 +8,7 @@ import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TethererActivity extends AppCompatActivity {
+public class TethererActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final String TAG = TethererActivity.class.getSimpleName();
     private Context context;
@@ -31,6 +32,7 @@ public class TethererActivity extends AppCompatActivity {
     private ClientDataAdapter mClientDataAdapter;
     private Server server;
     private Client client;
+    private Pulse pulse;
 
     @Override
     protected void onPause() {
@@ -50,7 +52,15 @@ public class TethererActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tetherer);
 
+        // Get application context
         this.context = this;
+
+        // Instantiate new pulse object
+        pulse = new Pulse(context);
+
+        // Take pulse
+        pulse.takePulse(this);
+
         mStatusTextView = (TextView) findViewById(R.id.textview_status);
         mClientRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_client_devices);
         mClientScanResultList = new ArrayList();
@@ -205,5 +215,28 @@ public class TethererActivity extends AppCompatActivity {
                 serverThread.sendData("http://youtube.com\n");
             }
         }
+    }
+
+    // @+id/button_pulse hook
+    public void onPulse(View v) {
+        // Commit pulse
+        Log.d(TAG,"Taking pulse...");
+        // Take pulse
+        pulse.takePulse(this);
+    }
+
+    // @+id/button_logout hook
+    public void onLogout(View v) {
+        // Commit pulse
+        Log.d(TAG,"Logging out...");
+        Session session = new Session(this);
+        session.logoutUser();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        // Exit application immediately
+        moveTaskToBack(true);
     }
 }

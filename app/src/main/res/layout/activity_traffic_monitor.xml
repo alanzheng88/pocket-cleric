@@ -81,6 +81,6 @@
     </TableRow>
 
 
-    <Button android:text="Take Snapshot" android:onClick="takeSnapshot" />
+    <Button android:text="Take Snapshot" android:onClick="buttonPress" />
 
 </TableLayout>

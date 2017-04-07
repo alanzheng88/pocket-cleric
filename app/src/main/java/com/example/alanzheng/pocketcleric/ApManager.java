@@ -84,7 +84,7 @@ public class ApManager {
         try {
             Method method = mWifiManager.getClass().getDeclaredMethod("isWifiApEnabled");
             method.setAccessible(true);
-            Log.d(TAG, "Checking if Wifi AP is on");
+            //Log.d(TAG, "Checking if Wifi AP is on");
             return (Boolean) method.invoke(mWifiManager);
         } catch (Throwable ignored) {
             Log.d(TAG, "Could not invoke WiFiManager");

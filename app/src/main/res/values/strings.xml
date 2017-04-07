@@ -6,7 +6,7 @@
     <string name="access_hotspot">access hotspot</string>
     <string name="enable">enable</string>
     <string name="disable">disable</string>
-    <string name="hotspot">hotspot</string>
+    <string name="hotspot">PocketCleric</string>
     <string name="status">status</string>
     <string name="chat">chat</string>
 
@@ -63,4 +63,7 @@
     <string name="row_mac_address">mac address</string>
     <string name="row_device">device</string>
     <string name="row_disconnected">disconnected</string>
+
+    <string name="pulse">Pulse</string>
+    <string name="logout">Logout</string>
 </resources>

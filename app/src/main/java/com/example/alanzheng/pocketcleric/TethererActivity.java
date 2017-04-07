@@ -30,6 +30,8 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
     private Context context;
     private boolean mSystemWritePermission;
     private TextView mStatusTextView;
+    private TextView mRxTextView;
+    private TextView mTxTextView;
     private WebView tethererWebView;
     private RecyclerView mClientRecyclerView;
     private List<ClientScanResult> mClientScanResultList;
@@ -62,6 +64,8 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         pulse.takePulse(this);
 
         mStatusTextView = (TextView) findViewById(R.id.textview_status);
+        mRxTextView = (TextView) findViewById(R.id.textview_rx);
+        mTxTextView = (TextView) findViewById(R.id.textview_tx);
         tethererWebView = (WebView) findViewById(R.id.tethererWebView);
         tethererWebView.setWebViewClient(new WebViewClient());
         mClientRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_client_devices);
@@ -69,6 +73,8 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         mClientDataAdapter = new ClientDataAdapter(mClientScanResultList, this);
         mClientRecyclerView.setAdapter(mClientDataAdapter);
         searchbarEditText = (EditText) findViewById(R.id.searchbarEditText);
+        // Place cursor at end
+        searchbarEditText.setSelection(searchbarEditText.getText().length());
 
         updateStatus();
 
@@ -98,6 +104,8 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
         } else {
             mStatusTextView.setText(statusString + ": disabled");
         }
+        mRxTextView.setText("Receieved: " + Utility.humanReadableByteCount(pulse.tether_latest_rx_value));
+        mTxTextView.setText("Transmitted: " + Utility.humanReadableByteCount(pulse.tether_latest_tx_value));
     }
 
     // Allow user to manually allow manifest to write permissions
@@ -217,6 +225,9 @@ public class TethererActivity extends AppCompatActivity implements ActivityCompa
 
         // Start pulse
         pulse.takePulse(this);
+
+        mRxTextView.setText("Receieved: " + Utility.humanReadableByteCount(pulse.tether_latest_rx_value));
+        mTxTextView.setText("Transmitted: " + Utility.humanReadableByteCount(pulse.tether_latest_tx_value));
     }
 
     // Try to start server every 5 seconds

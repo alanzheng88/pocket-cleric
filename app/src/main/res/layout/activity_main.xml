@@ -42,9 +42,27 @@
                 android:id="@+id/button_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:onClick="goToLoginActivity"
                 android:text="@string/login_label" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayout_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_receptor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:onClick="goToReceptorActivity"
+                android:text="@string/guest_label" />
         </LinearLayout>
 
     </LinearLayout>
